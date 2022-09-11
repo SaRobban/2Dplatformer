@@ -1,0 +1,14 @@
+Se hela detta projektet som lek och test av olika pixel effekter, medans samtidigt göra asset tillverkning så enkel som möjligt.
+Hierarki och ordning var aldrig tanken. Samt mycket av det som finns saknar "final touch".
+Trots detta är jag ganska stolt över flera element i detta project.
+
+Det som kan vara av intresse för Jonatan är statemachinen. 
+..\2Dplatformer\Assets\Scripts\CC\StateMachine
+
+Annars Spelbar scen ..\Scenes\NewArtScene
+
+WSAD, 
+Arrowkeys	-	move
+Space		-	jump
+E		-	lightning move
+Ctrl		-	portal
