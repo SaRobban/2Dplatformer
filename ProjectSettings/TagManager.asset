@@ -9,6 +9,7 @@ TagManager:
   - Ladder
   - Fire
   - Moveble
+  - TriggerDialog
   layers:
   - Default
   - TransparentFX

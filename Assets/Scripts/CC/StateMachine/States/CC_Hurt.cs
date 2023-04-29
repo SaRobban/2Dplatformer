@@ -2,8 +2,8 @@ using System.Collections;
 using UnityEngine;
 public class CC_Hurt : ICharacterState
 {
-//TODO : Clean up
-    private int hurtTime = 2;
+    public float resetHurtTime = 0.5f;
+    private float hurtTime = 0.5f;
     private MainCharacter owner;
 
     public CC_Hurt(MainCharacter owner)
@@ -13,26 +13,25 @@ public class CC_Hurt : ICharacterState
 
     public void OnEnter()
     {
-        hurtTime = 4;
+        hurtTime = resetHurtTime;
 
-        Vector2 velocity = owner.GetVelocity();
-        float x = owner.stats.WalkSpeed;
-        if (velocity.x > 0)
-        {
-            x = -x;
-        }
-        velocity.x = -owner.input.Axis.x * owner.stats.WalkSpeed;
-        velocity.y = owner.stats.JumpStr;
-        owner.SetVelocityTo(velocity);
+        ApplyBackLach();
 
         owner.SetAnimationTo("Hurt");
+
+        //WARNING : 
+        CommonStateFunctions.OnTakeDamage(owner, 1);
+        if (owner.healthSystem.IsDead())
+        {
+            owner.ChangeStateTo<CC_Death>();
+        }
     }
     public void Execute(float deltaT)
     {
-        hurtTime--;
+        hurtTime -= deltaT;
         owner.SetVelocityTo(CommonStateFunctions.ApplyNormalGravity(owner, owner.GetVelocity(), deltaT));
 
-        if (owner.flags.Grounded && hurtTime <= 0 )
+        if (owner.flags.Grounded && hurtTime <= 0)
         {
             owner.ChangeStateTo<CC_Walk>();
         }
@@ -42,9 +41,16 @@ public class CC_Hurt : ICharacterState
         CommonStateFunctions.SmokeFx(owner, true);
     }
 
-    IEnumerator Hurt()
+    private void ApplyBackLach()
     {
-        yield return new WaitForSeconds(hurtTime);
-        owner.ChangeStateTo<CC_Fall>();
+        Vector2 velocity = owner.GetVelocity();
+        float x = owner.stats.WalkSpeed;
+        if (velocity.x > 0)
+        {
+            x = -x;
+        }
+        velocity.x = -owner.input.Axis.x * owner.stats.WalkSpeed;
+        velocity.y = owner.stats.JumpStr;
+        owner.SetVelocityTo(velocity);
     }
 }

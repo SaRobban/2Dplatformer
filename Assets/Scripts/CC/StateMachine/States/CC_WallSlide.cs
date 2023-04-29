@@ -6,16 +6,13 @@ public class CC_WallSlide : ICharacterState
 {
     MainCharacter owner;
 
-    private bool ownerHasBeenAbove;
     public CC_WallSlide(MainCharacter owner)
     {
         this.owner = owner;
-        ownerHasBeenAbove = false;
     }
 
     public void OnEnter()
     {
-        ownerHasBeenAbove = false;
         if (owner.input.JumpWithForgiveness)
         {
             Debug.Log("Enterd while Jump");
@@ -56,7 +53,6 @@ public class CC_WallSlide : ICharacterState
     }
     public void OnExit()
     {
-        ownerHasBeenAbove = false;
         return;
     }
 
@@ -126,7 +122,7 @@ public class CC_WallSlide : ICharacterState
         float segment = 0.25f;
         Vector2 checkPoint = new Vector2(
             owner.stats.HalfWidth + owner.stats.SkinWidth,
-            owner.stats.HangHight + segment
+            owner.stats.HangHeight + segment
             );
 
         if (owner.flags.HitLeftWallHi)
@@ -135,8 +131,9 @@ public class CC_WallSlide : ICharacterState
         }
 
         //TODO : NON alockate?
+        Physics2D.queriesHitTriggers = false;
         RaycastHit2D hit = Physics2D.Raycast(owner.GetPosition() + checkPoint, Vector2.down, segment);
-
+        Physics2D.queriesHitTriggers = true;
         if (hit.collider != null)
         {
             //If hit point is not insidesomething and top is flat

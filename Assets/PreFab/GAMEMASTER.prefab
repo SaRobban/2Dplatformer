@@ -11,11 +11,15 @@ GameObject:
   - component: {fileID: 5311381044371803617}
   - component: {fileID: 5311381044371803616}
   - component: {fileID: 5311381044371803619}
+  - component: {fileID: 6694662139753166487}
+  - component: {fileID: 1853793780683798412}
+  - component: {fileID: 554964722}
   - component: {fileID: 5311381044371803618}
+  - component: {fileID: 554964723}
   m_Layer: 0
   m_Name: GAMEMASTER
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: -964228994112308473, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -82,6 +86,46 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &6694662139753166487
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5311381044371803621}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cadb088e914f9424fa4fcc25a756698f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1853793780683798412
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5311381044371803621}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee0a2269c86561b46bb73ec00a1a28ec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pause: 0
+--- !u!114 &554964722
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5311381044371803621}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 942a00579843fb544b93378c4644f0a3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mainCharacter: {fileID: 0}
+  inventory: {fileID: 0}
+  dialogSystem: {fileID: 554964723}
 --- !u!114 &5311381044371803618
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -94,8 +138,36 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8efe69399e8f8a343847188dd85b8164, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  umphLeftPreFab: {fileID: 6778688910290014883, guid: 40e101f04160f164ca16f04a9bb3c0c7, type: 3}
-  umphRightPreFab: {fileID: 8461879768116372781, guid: dc6106da8cdfe114a80dc98bc78de294, type: 3}
-  fxlist:
-  - {fileID: 6778688910290014883, guid: 40e101f04160f164ca16f04a9bb3c0c7, type: 3}
-  - {fileID: 8461879768116372781, guid: dc6106da8cdfe114a80dc98bc78de294, type: 3}
+  FX_Prefabs:
+  - {fileID: 6778688910290014895, guid: 40e101f04160f164ca16f04a9bb3c0c7, type: 3}
+  - {fileID: 8461879768116372769, guid: dc6106da8cdfe114a80dc98bc78de294, type: 3}
+  - {fileID: 2312577379718437150, guid: d264c8e9416d44f439e5ad9eaed7cb3e, type: 3}
+  poolSize: 3
+--- !u!114 &554964723
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5311381044371803621}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 51534e0fa632ee148a82af4ee452b03b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dialogFilePath: /Dialogs/TestDialog.tsv
+  dialogAnimations:
+    rootObject: {fileID: 0}
+    protrateImage: {fileID: 0}
+    dialogText: {fileID: 0}
+    buttonAnim1: {fileID: 0}
+    buttonAnim2: {fileID: 0}
+    scrollSpeed: 0.025
+    buttonAnimationSpeed: 0.5
+    m_Expressions:
+    - sprite: {fileID: 21300000, guid: cbce69dcb2b10164cbb99f2f4fc4c756, type: 3}
+      mood: Shy
+    - sprite: {fileID: 21300000, guid: 0e11be7c6902f124facb5cfde9794be1, type: 3}
+      mood: Happy
+    - sprite: {fileID: 21300000, guid: 7937d545c911ff7469c0e280cc9ee2f5, type: 3}
+      mood: Angry

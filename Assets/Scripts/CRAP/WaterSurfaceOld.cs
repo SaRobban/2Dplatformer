@@ -7,7 +7,6 @@ public class WaterSurfaceOld : MonoBehaviour
     public int pixelsPerUnit = 32;
 
     [SerializeField] private GameObject preFab;
-    [SerializeField] private int pointArrLength = 12;
     public float surfaceTension = 0.025f;
     public float drag = 0.1f;
 
@@ -309,8 +308,8 @@ public class WaterSurfaceOld : MonoBehaviour
 
     void SetImpact(Vector2 point)
     {
-        int closest = 0;
-        float distComp = 100000;
+       // int closest = 0;
+       // float distComp = 100000;
         for (int i = 0; i < springs.Length; i++)
         {
             float dist = (springs[i].pos - point).sqrMagnitude;

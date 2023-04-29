@@ -4,6 +4,12 @@ using UnityEngine;
 
 public struct CommonStateFunctions
 {
+    //HP TODO:
+    public static void OnTakeDamage(MainCharacter owner, int dmg)
+    {
+        owner.healthSystem.SubstractHP(dmg);
+    }
+
     //Common Exit conditions
     public static void ExitOnDubbleJump(MainCharacter owner)
     {
@@ -14,7 +20,7 @@ public struct CommonStateFunctions
             return;
         }
     }
-    
+
 
     //Common Forces
     public static Vector2 AddGravityByInput(MainCharacter owner, Vector2 velocity, float deltaT)
@@ -57,7 +63,7 @@ public struct CommonStateFunctions
             return velocity;
 
 
-            return velocity + Vector2.right * owner.input.Axis.x * owner.stats.AirControl * deltaT;
+        return velocity + Vector2.right * owner.input.Axis.x * owner.stats.AirControl * deltaT;
     }
 
     public static void SmokeFx(MainCharacter owner, bool inclWalls)
@@ -73,14 +79,14 @@ public struct CommonStateFunctions
                 if (owner.flags.HittingWallLeft)
                 {
                     up = Vector2.right;
-                    SPECIALFX.Command.FireFxUmphRight(pos, up);
+                    SPECIALFX.Command.Fire("FX_UmphLeft", pos, up);
                     return;
                 }
 
                 if (owner.flags.HittingWallRight)
                 {
                     up = Vector2.left;
-                    SPECIALFX.Command.FireFxUmphLeft(pos, up);
+                    SPECIALFX.Command.Fire("FX_UmphRight", pos, up);
                     return;
                 }
             }
@@ -88,13 +94,13 @@ public struct CommonStateFunctions
         }
 
         if (owner.GetVelocity().x > 0.25f)
-            SPECIALFX.Command.FireFxUmphLeft(pos, up);
+            SPECIALFX.Command.Fire("FX_UmphLeft", pos, up);
         else if (owner.GetVelocity().x < -0.25f)
-            SPECIALFX.Command.FireFxUmphRight(pos, up);
+            SPECIALFX.Command.Fire("FX_UmphRight", pos, up);
         else
         {
-            SPECIALFX.Command.FireFxUmphLeft(pos, up);
-            SPECIALFX.Command.FireFxUmphRight(pos, up);
+            SPECIALFX.Command.Fire("FX_UmphLeft",pos, up);
+            SPECIALFX.Command.Fire("FX_UmphRight",pos, up);
         }
     }
 }

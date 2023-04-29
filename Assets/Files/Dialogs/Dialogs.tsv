@@ -1,0 +1,11 @@
+Place:	Text:	Expression:
+TESTDIALOG	Shall we start the Demo? VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVEEEEEEEEEEEEEEEEEEEEEERRRRRRRRRRRRRRRRRRYYYYYYYYYYYY LONGGG SENTENCE	Happy
+TESTDIALOG	The controlls are s,a,d,w,i,q. Word Word Word Word Word Word Word Word Word Word Word Word Word Word Word Word Word Word Word Word Word Word.	Happy
+TESTDIALOG	Got it! Get it!? Git good! Now Go!	Happy
+		
+TESTDIALOG2	Welcom back master, is it time for our little game?	Shy
+TESTDIALOG2	WAIT!!! Your not Master? Your a, your a, USER!?	Angry
+TESTDIALOG2	Users are useless they nag and break stuff, complain and exploit bugs. You will never understand Masters plan.	Angry
+
+LockWrongKey	Stupid lock logic!!!	Angry
+LockRightKey	Open sesamy!!!	Happy

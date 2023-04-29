@@ -96,7 +96,7 @@ public class MultiColliderFlags
             if (Vector2.Dot(Vector2.right, cPoint.normal) < 0)
             {
                 HittingWallRight = true;
-                if (cPoint.point.y > owner.GetPosition().y + owner.stats.HangHight)
+                if (cPoint.point.y > owner.GetPosition().y + owner.stats.HangHeight)
                 {
                     HitRightWallHi = true;
                 }
@@ -104,7 +104,7 @@ public class MultiColliderFlags
             else
             {
                 HittingWallLeft = true;
-                if (cPoint.point.y > owner.GetPosition().y + owner.stats.HangHight)
+                if (cPoint.point.y > owner.GetPosition().y + owner.stats.HangHeight)
                 {
                     HitLeftWallHi = true;
                 }

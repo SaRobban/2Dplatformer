@@ -25,9 +25,9 @@ public class CC_ClimbLedge : ICharacterState
 
         owner.rb.isKinematic = true;
         if (owner.sprite.flipX)
-            tPos = owner.transform.position + Vector3.up * owner.stats.HangHight  - Vector3.right * owner.stats.HalfWidth * 2;
+            tPos = owner.transform.position + Vector3.up * owner.stats.HangHeight  - Vector3.right * owner.stats.HalfWidth * 2;
         else
-            tPos = owner.transform.position + Vector3.up * owner.stats.HangHight  + Vector3.right * owner.stats.HalfWidth * 2;
+            tPos = owner.transform.position + Vector3.up * owner.stats.HangHeight  + Vector3.right * owner.stats.HalfWidth * 2;
 
         //Unlink Sprite//
       //  spriteLocalPos = owner.sprite.transform.position - owner.transform.position;

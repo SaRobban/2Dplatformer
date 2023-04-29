@@ -101,6 +101,12 @@ TextureImporter:
   - first:
       213: -1458209519371847755
     second: Climb7
+  - first:
+      213: -8535780398230943200
+    second: dead1
+  - first:
+      213: 5126907949268806210
+    second: dead2
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -1046,6 +1052,48 @@ TextureImporter:
       bones: []
       spriteID: 5b77fb50b2663cbe0800000000000000
       internalID: -1458209519371847755
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dead1
+      rect:
+        serializedVersion: 2
+        x: 450
+        y: 12
+        width: 50
+        height: 50
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 02ac3bac3f0da8980800000000000000
+      internalID: -8535780398230943200
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dead2
+      rect:
+        serializedVersion: 2
+        x: 450
+        y: 62
+        width: 50
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 24a2b48cd9f662740800000000000000
+      internalID: 5126907949268806210
       vertices: []
       indices: 
       edges: []

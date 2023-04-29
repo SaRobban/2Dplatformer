@@ -39,6 +39,7 @@ public class PortalLancher : MonoBehaviour
 
     private void Update()
     {
+
         if (Input.GetButtonDown("Fire1"))
         {
             Launch();

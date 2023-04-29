@@ -6,11 +6,7 @@ public class PushBox : MonoBehaviour
 {
 
     [SerializeField] float pushSpeed = 3;
-    [SerializeField] float gravity = 10;
     [SerializeField] Rigidbody2D rb;
-    float currentG = 0;
-    Coroutine running;
-
     bool wasKinematic;
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -28,8 +24,6 @@ public class PushBox : MonoBehaviour
             rb.isKinematic = false;
             wasKinematic = false;
             rb.velocity = PushForce(collision.relativeVelocity) * pushSpeed;
-          //  if (running == null)
-          //      running = StartCoroutine(WaitForRest());
         }
     }
 
@@ -75,7 +69,6 @@ public class PushBox : MonoBehaviour
         }
         rb.velocity = Vector2.zero;
         rb.isKinematic = true;
-        running = null;
     }
 
     Vector2 PushForce(Vector2 impactVelocity)

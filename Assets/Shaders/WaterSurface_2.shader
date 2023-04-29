@@ -64,8 +64,13 @@
                 float2 flipUV = i.uv;
                 flipUV.y = 1 - flipUV.y;
 
+                //FadeCorners
+                float leftPow = clamp(i.uv.x * 10, 0, 1);
+                float rightPow = clamp(1 - i.uv.x * 10, 0, 1);
+
+
                 //Create a wave in the Xaxis
-                flipUV.x += sin(i.uv.y * i.uv.y * i.uv.y * _Waves + _Time.y  * _AnimSpeed) * flipUV.y * _WaveStr;
+                flipUV.x += sin(i.uv.y * i.uv.y * i.uv.y * _Waves + _Time.y  * _AnimSpeed) * flipUV.y * _WaveStr * leftPow * rightPow;
 
                 //set pixel color by reading the texture data at uv, * color
                 fixed4 col = tex2D(_MainTex, flipUV) + i.uv.y * _Color;

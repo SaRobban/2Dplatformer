@@ -1,5 +1,5 @@
 using UnityEngine;
-
+using System;
 public class CC_InputControl
 {
     //[Header("Controller")]
@@ -12,6 +12,9 @@ public class CC_InputControl
     private bool fixedFire;
     private bool dash;
     private bool fixedLightnignDash;
+
+    private bool interact;
+
     public Vector2 Axis => axis;
     public bool HoldJump => holdJumpButton;
     public bool FixedJump => fixedJump;
@@ -19,6 +22,10 @@ public class CC_InputControl
     public bool FixedFire => fixedFire;
     public bool Dash => dash;
     public bool FixedLightnignDash => fixedLightnignDash;
+
+    public bool Interact => interact;
+
+    public static event Action OnInventoryKey;
 
     public CC_InputControl(float forgivenessfTime)
     {
@@ -68,6 +75,16 @@ public class CC_InputControl
         {
             dash = true;
         }
+
+        if (Input.GetKeyDown(KeyCode.I))
+        {
+            OnInventoryKey?.Invoke();
+        }
+
+        if (Input.GetButtonDown("Interact"))
+        {
+            interact = true;
+        }
     }
 
     public void ResetController()
@@ -75,6 +92,8 @@ public class CC_InputControl
         fixedJump = false;
         fixedFire = false;
         fixedLightnignDash = false;
+
+        interact = false;
     }
 
     public bool GetIfDrop()

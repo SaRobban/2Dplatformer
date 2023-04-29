@@ -6,50 +6,59 @@ using UnityEngine;
 //Sends to trigger recivers
 public class TriggerSensor : MonoBehaviour
 {
+    public string TagFilter = "";
+
+
     [Header("On Trigger Recivers")]
     [SerializeField] public SensorReciverBase[] recivers;
 
-    [SerializeField] public bool active = true;
-    [SerializeField] public string requiresInput;
-    [SerializeField] private string reactOnlyToTag = "Player";
+    [Header("Sensor Settings")]
+    [SerializeField] public bool requiresPlayerInteractionKey;
+    [SerializeField] public bool requireTag;
+    [SerializeField] private string[] reactOnlyToTags = new string[] { "Player" };
 
-    private IEnumerator monitorInput;
 
-    IEnumerator MonitorInput()
-    {
-        while (!Input.GetButtonDown(requiresInput))
-        {
-            print("corutine running");
-            yield return null;
-        }
-        SendEnterToRecivers();
-    }
+    [SerializeField] private bool subscribedToInteraction;
+
+    private List<Collider2D> validObjectsInSensor = new List<Collider2D>();
+    private bool activated;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (!active)
-            return;
-
-        if (!string.IsNullOrEmpty(requiresInput))
+        if (subscribedToInteraction && collision.tag == "Player")
         {
-            monitorInput = MonitorInput();
-            StartCoroutine(monitorInput);
+            validObjectsInSensor.Add(collision);
+            PlayerMain.mainCharacter.A_OnInteract += SendEnterToRecivers;
+            subscribedToInteraction = true;
             return;
         }
 
-        if (!string.IsNullOrEmpty(reactOnlyToTag))
+        if (requireTag)
         {
-            if (collision.tag == reactOnlyToTag)
+            foreach (string cTag in reactOnlyToTags)
             {
-                SendEnterToRecivers();
+                if (cTag == collision.tag)
+                {
+                    validObjectsInSensor.Add(collision);
+                    SendEnterToRecivers();
+                    return;
+                }
             }
             return;
         }
+
+        validObjectsInSensor.Add(collision);
         SendEnterToRecivers();
+        return;
     }
 
-    void SendEnterToRecivers()
+
+
+    public void SendEnterToRecivers()
     {
+        if (activated)
+            return;
+
         print("Send Enter");
         foreach (SensorReciverBase obj in recivers)
         {
@@ -59,22 +68,19 @@ public class TriggerSensor : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (!active)
-            return;
-
-        if (monitorInput != null)
-            StopCoroutine(monitorInput);
-
-
-        if (!string.IsNullOrEmpty(reactOnlyToTag))
+        if (subscribedToInteraction && collision.tag == "Player")
         {
-            if (collision.tag == reactOnlyToTag)
-            {
-                SendExitToRecivers();
-            }
-            return;
+            PlayerMain.mainCharacter.A_OnInteract -= SendEnterToRecivers;
+            subscribedToInteraction = false;
         }
-        SendExitToRecivers();
+
+        if (validObjectsInSensor.Contains(collision))
+        {
+            validObjectsInSensor.Remove(collision);
+            if (validObjectsInSensor.Count == 0)
+                SendExitToRecivers();
+        }
+
     }
     void SendExitToRecivers()
     {
@@ -83,5 +89,17 @@ public class TriggerSensor : MonoBehaviour
         {
             obj.Exit();
         }
+    }
+
+    private void OnDisable()
+    {
+        if (subscribedToInteraction)
+            PlayerMain.mainCharacter.A_OnInteract -= SendEnterToRecivers;
+    }
+
+    private void OnDestroy()
+    {
+        if (subscribedToInteraction)
+            PlayerMain.mainCharacter.A_OnInteract -= SendEnterToRecivers;
     }
 }

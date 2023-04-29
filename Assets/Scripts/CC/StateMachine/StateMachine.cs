@@ -54,7 +54,8 @@ public class StateMachine
                     characterListedStates.Add(instance);
 
 #if UNITY_EDITOR
-                    Debug.Log("State found : " + type.FullName);
+                    string log = "<color=green>StateFound : " + type.FullName.ToString() + "</color>";
+                    Debug.Log(log);
 #endif
                 }
             }
@@ -89,6 +90,13 @@ public class StateMachine
         currentState.OnExit();
 
         currentState = characterListedStates[index] as ICharacterState;
+        currentState.OnEnter();
+    }
+
+    public void ChangeState(ICharacterState newState)
+    {
+        currentState.OnExit();
+        currentState = newState;
         currentState.OnEnter();
     }
 }

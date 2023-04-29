@@ -1,8 +1,9 @@
+/*
 using UnityEngine;
 using System;
 using System.IO;
 using System.Text;
-
+/*
 public class FileManager : MonoBehaviour
 {
     private static FileManager instance;
@@ -114,3 +115,4 @@ public class FileManager : MonoBehaviour
         player.transform.position = storedData.Position;
     }
 }
+*/

@@ -17,9 +17,9 @@ public class PixelsnapFollow : MonoBehaviour
     // Update is called once per frame
     void LateUpdate()
     {
-        float x = Mathf.CeilToInt(transform.parent.position.x * (float)pixelPerUnit);
+        float x = Mathf.CeilToInt(transform.position.x * (float)pixelPerUnit);
         x *= step;
-        float y = Mathf.CeilToInt(transform.parent.position.y * (float)pixelPerUnit);
+        float y = Mathf.CeilToInt(transform.position.y * (float)pixelPerUnit);
         y *= step;
         transform.position = Vector3.right * x + Vector3.up * y + Vector3.forward * transform.position.z;
     }

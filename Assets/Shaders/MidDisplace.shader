@@ -4,7 +4,7 @@ Shader "Unlit/MidDisplace"
 	{
 		_MainTex("Texture", 2D) = "white" {}
 		_str("str", Range(0.0, 1.0)) = 0.5
-				_color("color", Color) = (.25, .5, .5, 1)
+		_color("color", Color) = (.25, .5, .5, 1)
 	}
 		SubShader
 	{
@@ -47,17 +47,18 @@ Shader "Unlit/MidDisplace"
 				// sample the texture
 				fixed4 col = tex2D(_MainTex, i.uv);
 			
-			float lum = col.r * 0.333 + col.g * 0.333 + col.b * 0.333;
-			lum *= -1;
-			lum += 1;
-			lum *= lum *lum;
-			lum *= -1;
-			lum += 1;
+				float lum = col.r + col.g + col.b;
+				lum*=0.333;
+				lum *= -1;
+				lum += 1;
+				lum *= lum *lum;
+				lum *= -1;
+				lum += 1;
 			
-			float4 bw = float4(lum, lum, lum, 1);
+				float4 bw = float4(lum, lum, lum, 1);
 			
-			fixed4 shade = _color - bw;
-			col += shade *_str;
+				fixed4 shade = _color - bw;
+				col += shade *_str;
 
 				return col;
 			}

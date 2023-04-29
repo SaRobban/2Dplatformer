@@ -78,24 +78,16 @@ public class LightnigMoveIng : MonoBehaviour
     }
 #endif
 
-    int b = 0;
-    bool sleep = false;
+  
     void UpdateFlash()
     {
         if (flash[0].time < 0)
         {
-            sleep = true;
             return;
         }
-        else
-        {
-            sleep = false;
-        }
-
 
         for (int i = 0; i < flash.Length-1; i++)
         {
-            b += flash[i].HasTimeLeft();
             flash[i].DrawFlash(AboveMaxDeltaStep(i,i+1));
         }
         flash[flash.Length - 1].DontRender();

@@ -5,7 +5,7 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(MainCharacterStats))]
 
-public class MainCharacter : MonoBehaviour
+public class MainCharacter : MonoBehaviour, GameMasterUpdate
 {
     [Header("Stats")]
     [SerializeField] public MainCharacterStats stats;
@@ -17,21 +17,31 @@ public class MainCharacter : MonoBehaviour
     [HideInInspector] public CommonStateFunctions stateFunc;
 
     [HideInInspector] public CC_Aim aim;
+    [HideInInspector] public CC_Health healthSystem;
 
     [Header("Dependencies")]
     [SerializeField] public SpriteRenderer sprite;
     [SerializeField] public Animator anim;
     [SerializeField] public CC_Souds sounds;
-//    [HideInInspector] public bool useJumpFrogiveness;
+
+
+    //TODO : When is this used???
+    public string lastAnimationName { get; private set; }
+    public System.Action<string> AnimationSwitch;
     public bool enabledPixelPerfect;
 
     private string lastAnimationState;
+
+    public event System.Action A_OnInteract;
+    public event System.Action<Item> A_OnUseSpecialItem;
+
 
     [Header("LightnignMoveFX")]
     [SerializeField] public GameObject lightningFX;
 
     private void Awake()
     {
+
         //SetUp
         stats = GetComponent<MainCharacterStats>();
         rb = GetComponent<Rigidbody2D>();
@@ -44,24 +54,49 @@ public class MainCharacter : MonoBehaviour
         stateMachine = new StateMachine(this);
         aim = new CC_Aim(rb, this);
 
+        healthSystem = new CC_Health(this);
+
+        
+
         //Init
         stateMachine.ChangeState<CC_Walk>();
 
         lightningFX.SetActive(false);
+
+        if (stats.LastSpawnPoint == null)
+        {
+            Debug.LogError("<color=red>No spawnPoint</color>");
+            stats.SetSpawnPoint(
+                new SpawnLocation(UnityEngine.SceneManagement.SceneManager.GetActiveScene().name,
+                transform.position
+            ));
+        }
     }
 
     private void Start()
     {
         CameraFunction.instance.TargetOne(transform);
+
+        GameMaster.A_OnFreezeScene += GM_FreezeGame;
+        GameMaster.A_OnUnFreezeScene += GM_UnFreezeGame;
+
+        //WARNING : TODO : TEST REMOVE
+        healthSystem.SetHPTo(1);
     }
 
-    private void Update()
+    private void OnDestroy()
+    {
+        GameMaster.A_OnFreezeScene -= GM_FreezeGame;
+        GameMaster.A_OnUnFreezeScene -= GM_UnFreezeGame;
+    }
+
+    public void Update()
     {
         input.UpdateController();
         AlignUp();
     }
 
-    private void FixedUpdate()
+    public void FixedUpdate()
     {
         flags.CheckColliderFlags();
         Crush();
@@ -73,7 +108,7 @@ public class MainCharacter : MonoBehaviour
         input.ResetController();
     }
 
-    private void LateUpdate()
+    public void LateUpdate()
     {
         if (!enabledPixelPerfect)
             return;
@@ -81,6 +116,26 @@ public class MainCharacter : MonoBehaviour
         PixelPerfectSpritePosition();
     }
 
+  
+    public void GM_OnPause()
+    {
+        ChangeStateTo<CC_FreezePlayer>();
+    }
+
+    public void GM_OnUnPause()
+    {
+        ChangeStateTo<CC_Walk>();
+    }
+
+    public void GM_FreezeGame()
+    {
+        ChangeStateTo<CC_FreezePlayer>();
+    }
+
+    public void GM_UnFreezeGame()
+    {
+        ChangeStateTo<CC_Walk>();
+    }
     /// <summary>
     /// New
     /// </summary>
@@ -90,7 +145,7 @@ public class MainCharacter : MonoBehaviour
             return;
 
         float angle = Vector2.Angle(transform.up, Vector3.up);
-        angle = Mathf.Clamp(angle, 0, angle* stats.AlignUpSpeed * Time.deltaTime);
+        angle = Mathf.Clamp(angle, 0, angle * stats.AlignUpSpeed * Time.deltaTime);
         transform.Rotate(Vector3.forward, angle);
     }
 
@@ -98,7 +153,14 @@ public class MainCharacter : MonoBehaviour
     {
         stateMachine.ChangeState<newState>();
     }
-
+    public void ChangeStateTo(ICharacterState newState)
+    {
+        stateMachine.ChangeState(newState);
+    }
+    public ICharacterState GetCurrentState()
+    {
+        return stateMachine.currentState;
+    }
     public Vector2 GetPosition()
     {
         return transform.position;
@@ -140,6 +202,7 @@ public class MainCharacter : MonoBehaviour
     {
         lastAnimationState = animation;
         anim.Play(animation);
+        AnimationSwitch?.Invoke(animation);
     }
 
     public string GetAnimationState()
@@ -155,7 +218,7 @@ public class MainCharacter : MonoBehaviour
         pos.y = Mathf.Round(pos.y);
         pos.z = Mathf.Round(pos.z);
         pos /= 32;
-        sprite.transform.position = pos + Vector3.up * stats.WaistHight;
+        sprite.transform.position = pos + Vector3.up * stats.WaistHeight;
 
     }
 
@@ -172,4 +235,47 @@ public class MainCharacter : MonoBehaviour
     {
         dubbleJumpAvailable = stats.DubbleJumps;
     }
+
+
+    //Item Actions
+    public void InvokeInteract()
+    {
+        A_OnInteract?.Invoke();
+    }
+
+    public void OnUseSpecialItem(Item item)
+    {
+        A_OnUseSpecialItem?.Invoke(item);
+    }
+
+    public void RevivePlayerAtLastCheckPoint()
+    {
+        if (stats.LastSpawnPoint == null)
+        {
+            Debug.LogError("No spawnPoint");
+            return;
+        }
+
+        if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().name == stats.LastSpawnPoint.sceneName)
+        {
+            Debug.Log("Last Location : " + stats.LastSpawnPoint.sceneName + "  " + stats.LastSpawnPoint.location);
+            Debug.Log("my Location : " + transform.position);
+            TeleportTo(stats.LastSpawnPoint.location);
+
+            //Warning : Telepot does not work until nextframe;
+            transform.position = stats.LastSpawnPoint.location;
+            healthSystem.SetHPToFull();
+        }
+    }
+
+    public void DisableCollision()
+    {
+        flags.GetCollider().enabled = false;
+    }
+    public void EnableCollision()
+    {
+        flags.GetCollider().enabled = true;
+    }
+
+  
 }

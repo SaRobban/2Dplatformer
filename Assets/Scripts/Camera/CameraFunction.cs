@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public  class CameraFunction : MonoBehaviour
+public class CameraFunction : MonoBehaviour
 {
     public static CameraFunction instance;
     private Transform targetOne;
@@ -16,6 +16,8 @@ public  class CameraFunction : MonoBehaviour
     public float maxWidth = 6;
     public float maxHeigth = 6;
 
+    public bool follow = true;
+
     private void Awake()
     {
         if (instance == null)
@@ -26,7 +28,8 @@ public  class CameraFunction : MonoBehaviour
 
     private void Update()
     {
-        CameraUpdateSwitch();
+        if (follow)
+            CameraUpdateSwitch();
     }
 
     public void TargetOne(Transform t)
@@ -60,7 +63,7 @@ public  class CameraFunction : MonoBehaviour
 
     void TargetUpdateOne()
     {
-       float  dist = ((Vector2)transform.position - (Vector2)targetOne.position).sqrMagnitude;
+        float dist = ((Vector2)transform.position - (Vector2)targetOne.position).sqrMagnitude;
         if (dist < 0.12f)
             return;
         float cammeraSpeed = dist * 0.25f;

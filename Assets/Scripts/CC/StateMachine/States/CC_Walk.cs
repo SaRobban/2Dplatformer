@@ -7,6 +7,10 @@ public class CC_Walk : ICharacterState
 {
     MainCharacter owner;
     private bool hasBraked;
+    float stepTime = 1;
+    float time = 1;
+
+
     //Constructor
     public CC_Walk(MainCharacter owner)
     {
@@ -34,32 +38,6 @@ public class CC_Walk : ICharacterState
         owner.SetAnimationTo("Run");
     }
 
-    float dubbleClickTimeOut = 0.2f;
-    float dubbleClickTime = 0.0f;
-    int lastAxis = 0;
-    bool wasZero = true;
-    private bool DubbleKlick()
-    {
-        dubbleClickTime -= Time.deltaTime;
-
-        if ((int)Input.GetAxisRaw("Horizontal") == lastAxis && wasZero && dubbleClickTime > 0)
-        {
-            dubbleClickTime = 0;
-            return true;
-        }
-        else if (Input.GetAxisRaw("Horizontal") != 0)
-        {
-            lastAxis = (int)Input.GetAxisRaw("Horizontal");
-            dubbleClickTime = dubbleClickTimeOut;
-            wasZero = false;
-        }
-        else
-        {
-            wasZero = true;
-        }
-
-        return false;
-    }
     public void Execute(float deltaT)
     {
         if (ShouldExitState())
@@ -67,18 +45,24 @@ public class CC_Walk : ICharacterState
 
         Vector2 velocity = WalkFunction(deltaT);
 
+        if (owner.input.Interact)
+        {
+            owner.InvokeInteract();
+        }
+
         Animations(velocity);
         FootStepsSounds(velocity);
     }
 
     bool ShouldExitState()
     {
+        /*
         if(owner.input.FixedLightnignDash)
         {
             owner.ChangeStateTo<CC_LightningDash>();
             return true;
         }
-
+        */
         //Exit State?
         if (owner.input.FixedJump == true)
         {
@@ -148,9 +132,9 @@ public class CC_Walk : ICharacterState
             if (!hasBraked)
             {
                 if (owner.sprite.flipX)
-                    SPECIALFX.Command.FireFxUmphLeft(owner.transform.position - Vector3.right * owner.stats.HalfWidth, Vector2.up);
+                    SPECIALFX.Command.Fire("FX_UmphLeft", owner.transform.position - Vector3.right * owner.stats.HalfWidth, Vector2.up);
                 else
-                    SPECIALFX.Command.FireFxUmphRight(owner.transform.position + Vector3.right * owner.stats.HalfWidth, Vector2.up);
+                    SPECIALFX.Command.Fire("FX_UmphRight", owner.transform.position + Vector3.right * owner.stats.HalfWidth, Vector2.up);
                 hasBraked = true;
             }
 
@@ -159,8 +143,7 @@ public class CC_Walk : ICharacterState
         }
     }
 
-    float stepTime = 1;
-    float time = 1;
+   
     void FootStepsSounds(Vector2 velocity)
     {
         if (velocity.x == 0)

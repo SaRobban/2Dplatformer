@@ -5,14 +5,50 @@ using UnityEngine;
 public class SPECIALFX : MonoBehaviour
 {
     public static SPECIALFX Command;
-    public FX_FirePlayOnce umphLeftPreFab;
-    public FX_FirePlayOnce umphRightPreFab;
+    private Dictionary<string, FX_pool> spawnFX;
 
-    public enum fxList { umpf }
+    class FX_pool
+    {
+        int currentPoolnum = 0;
+        GameObject[] fx;
 
+        public FX_pool(Transform parent, GameObject animationPreFab, int poolSize)
+        {
+            currentPoolnum = 0;
 
-    public FX_FirePlayOnce[] fxlist;
-    private Dictionary<string, FX_FirePlayOnce> spawnFX = new Dictionary<string, FX_FirePlayOnce>();
+            Transform holder = new GameObject().transform;
+            holder.parent = parent;
+            holder.name = animationPreFab.name + " POOL";
+
+            fx = new GameObject[poolSize];
+            for (int i = 0; i < poolSize; i++)
+            {
+                GameObject newFX = Instantiate(animationPreFab,holder);
+                fx[i] = newFX;
+                newFX.SetActive(false);
+            }
+        }
+        public void TriggerObjectFromPoolAt(Vector3 pos, Vector3 dir)
+        {
+            if (fx[currentPoolnum].activeSelf)
+            {
+                string errorMessege = "<color=red>Pool out of Range : " + fx[0].name + "</color>";
+                Debug.LogWarning(errorMessege);
+                fx[currentPoolnum].SetActive(false);
+            }
+
+            fx[currentPoolnum].gameObject.SetActive(true);
+            fx[currentPoolnum].transform.position = pos;
+            fx[currentPoolnum].transform.up = dir;
+            currentPoolnum++;
+            if (currentPoolnum >= fx.Length)
+                currentPoolnum = 0;
+        }
+    }
+
+[Header("Pool Special fx")]
+[SerializeField]    private GameObject[] FX_Prefabs;
+    [SerializeField] private int poolSize = 3;
 
     private void Awake()
     {
@@ -20,83 +56,47 @@ public class SPECIALFX : MonoBehaviour
         if (Command != null && Command != this)
         {
             Destroy(this.gameObject);
-            return;//Avoid doing anything else
+            return;
         }
 
         Command = this;
         DontDestroyOnLoad(this.gameObject);
+
+        MakeDictionaryAndPoolFX();
     }
+
+    private void MakeDictionaryAndPoolFX()
+    {
+        spawnFX = new Dictionary<string, FX_pool>();
+
+        foreach (GameObject fx in FX_Prefabs)
+        {
+            FX_pool pool = new FX_pool(transform, fx, poolSize);
+            spawnFX.Add(fx.name, pool);
+        }
+#if UNITY_EDITOR
+        string names= "Special FX list : ";
+        foreach (string key in spawnFX.Keys)
+        {
+            names += key + ", ";
+        }
+        Debug.Log("<color=yellow>" + names.ToString() + "</color>");
+#endif
+
+    }
+
 
     // Start is called before the first frame update
     void Start()
     {
-        ConvertFxlistToDictionary();
-        umphLeftPool = FillPool(umphLeftPreFab, 3);
-        umphRightPool = FillPool(umphRightPreFab, 3);
     }
-    void ConvertFxlistToDictionary()
+
+
+    public void Fire(string name, Vector3 pos, Vector3 dir)
     {
-        //TODO : Pool
-        foreach (FX_FirePlayOnce fx in fxlist)
+        if (spawnFX.TryGetValue(name, out FX_pool pool))
         {
-            GameObject instance = Instantiate(fx.gameObject);
-            instance.name = instance.name.Replace("(Clone)", "");
-            spawnFX.Add(instance.name, instance.GetComponent<FX_FirePlayOnce>());
+            pool.TriggerObjectFromPoolAt(pos, dir);
         }
-    }
-    /// <summary>
-    /// Spawn a effect playing once, by name of prefab
-    /// </summary>
-    /// <param name="name"></param>
-    /*
-    public void FireFX(string name, Vector2 pos, Vector2 up)
-    {
-        spawnFX[name].gameObject.SetActive(true);
-        spawnFX[name].transform.position = pos;// Fire(pos);
-        spawnFX[name].transform.up = up;
-    }
-    */
-
-
-    private int umphLeftPoolNum = 0;
-    private FX_FirePlayOnce[] umphLeftPool;
-    public void FireFxUmphLeft(Vector2 pos, Vector2 up)
-    {
-        umphLeftPool[umphLeftPoolNum].gameObject.SetActive(true);
-        umphLeftPool[umphLeftPoolNum].transform.position = pos;// Fire(pos);
-        umphLeftPool[umphLeftPoolNum].transform.up = up;
-        umphLeftPoolNum = AddAndCheckIfLoop(umphLeftPoolNum, umphLeftPool.Length);
-    }
-
-    private int umphRightPoolNum = 0;
-    private FX_FirePlayOnce[] umphRightPool;
-    public void FireFxUmphRight(Vector2 pos, Vector2 up)
-    {
-        umphRightPool[umphRightPoolNum].gameObject.SetActive(true);
-        umphRightPool[umphRightPoolNum].transform.position = pos;// Fire(pos);
-        umphRightPool[umphRightPoolNum].transform.up = up;
-        umphRightPoolNum = AddAndCheckIfLoop(umphRightPoolNum, umphRightPool.Length);
-    }
-
-    private int AddAndCheckIfLoop(int i, int arrayLength)
-    {
-        if(i +1 >= arrayLength)
-        {
-            return 0;
-        }
-        return i + 1;
-    }
-
-    private FX_FirePlayOnce[] FillPool(FX_FirePlayOnce objectToInstance, int size)
-    {
-        FX_FirePlayOnce[] pool = new FX_FirePlayOnce[3];
-        for (int i = 0; i < pool.Length; i++)
-        {
-            GameObject instance = Instantiate(objectToInstance.gameObject);
-            instance.name = instance.name.Replace("(Clone)", "");
-            pool[i] = Instantiate(instance.GetComponent<FX_FirePlayOnce>());
-            instance.gameObject.SetActive(false);
-        }
-        return pool;
     }
 }

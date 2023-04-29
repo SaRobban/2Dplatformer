@@ -20,7 +20,9 @@ public class PortalProjectile : MonoBehaviour
     void Update()
     {
         float step = speed * Time.deltaTime;
+        Physics2D.queriesHitTriggers = false;
         RaycastHit2D hit = Physics2D.Raycast(transform.position, transform.up, step, launcher.hitMask);
+        Physics2D.queriesHitTriggers = true;
         if (hit.collider)
         {
             if (hit.collider.name == "PortalOne")

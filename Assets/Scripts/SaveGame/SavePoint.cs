@@ -8,10 +8,14 @@ public class SavePoint : MonoBehaviour
     [SerializeField] private bool load;
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        /*
         if (save)
-            FileManager.Command.SaveData(collision.transform);
+           //Player save data
 
         if (load)
-            FileManager.Command.LoadData(collision.transform);
+            //player load data
+        */
     }
+
+
 }

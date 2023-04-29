@@ -31,7 +31,7 @@ Shader "Roberts/ScreenPos" {
 		  void surf(Input IN, inout SurfaceOutput o) {
 			  //o.Albedo = tex2D(_MainTex, IN.uv_MainTex).rgb;
 			  
-			  float2 screenUV = IN.screenPos.xy  / IN.screenPos.w;
+			  float2 screenUV = IN.screenPos.xy  / IN.screenPos.w+1;
 			  screenUV.y *= -1;
 			  screenUV.y += 1;
 			  screenUV.y -= _Offset;

@@ -2,6 +2,9 @@ using UnityEngine;
 
 public class MainCharacterStats : MonoBehaviour
 {
+    [Header("HP")]
+    [SerializeField] private int fullHp = 5;
+
     [Header("Grounded")]
     [SerializeField] private float walkSpeed = 4;
     [SerializeField] private float runSpeed = 8;
@@ -24,12 +27,17 @@ public class MainCharacterStats : MonoBehaviour
     [SerializeField] private float wallJumpXStr = 5f;
     [Header("Physics")]
     [SerializeField] private float halfWidth = 0.25f;
-    [SerializeField] private float waistHight = 0.75f;
-    [SerializeField] private float hangHight = 0.98f;
+    [SerializeField] private float waistHeight = 0.75f;
+    [SerializeField] private float hangHeight = 0.98f;
     [SerializeField] private float skinWidth = 0.02f;
     [SerializeField] private float alignUpSpeed = 4f;
 
+    [SerializeField] private float castingHeight = 1.25f;
+
+    private SpawnLocation lastSpawnPoint;
+
     //Public pointers to accsess private variables form exernal script without screving with unity inpector.
+    public int FullHP => fullHp;
     public float WalkSpeed => walkSpeed;
     public float RunSpeed => runSpeed;
     public float AirControl => airControl;
@@ -45,16 +53,24 @@ public class MainCharacterStats : MonoBehaviour
     public float WallJumpXStr => wallJumpXStr;
 
     public float HalfWidth => halfWidth;
-    public float WaistHight => waistHight;
-    public float HangHight => hangHight;
+    public float WaistHeight => waistHeight;
+    public float HangHeight => hangHeight;
     public float SkinWidth => skinWidth;
 
     public float WalkDeadZone => walkDeadZone;
     public float KillMomentum => killMomentum;
 
     public float AlignUpSpeed => alignUpSpeed;
+
+    public SpawnLocation LastSpawnPoint => lastSpawnPoint;
+
     public void SetDubbleJumps(int num)
     {
         dubbleJumps = num;
+    }
+
+    public void SetSpawnPoint(SpawnLocation spawnlocation)
+    {
+        lastSpawnPoint = spawnlocation;
     }
 }
