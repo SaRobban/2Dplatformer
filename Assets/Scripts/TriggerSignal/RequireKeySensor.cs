@@ -36,7 +36,7 @@ public class RequireKeySensor : MonoBehaviour
             if (key.ConsumeOnUse)
                 key.RemoveThisFromInventory();
 
-            PlayerMain.dialogSystem.EnterDialogFor("LockRightKey");
+            CanvasManager.dialogSystem.EnterDialogFor("LockRightKey");
             PlayerMain.inventory.m_ui.CloseInventory();
 
             return;
@@ -48,7 +48,7 @@ public class RequireKeySensor : MonoBehaviour
 
     void OnWrongKey()
     {
-        PlayerMain.dialogSystem.EnterDialogFor("LockWrongKey");
+        CanvasManager.dialogSystem.EnterDialogFor("LockWrongKey");
     }
 
 

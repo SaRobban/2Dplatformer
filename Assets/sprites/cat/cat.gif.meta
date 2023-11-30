@@ -107,6 +107,18 @@ TextureImporter:
   - first:
       213: 5126907949268806210
     second: dead2
+  - first:
+      213: -7914764227976393271
+    second: duck_01
+  - first:
+      213: -5509444329160948909
+    second: duck_02
+  - first:
+      213: -2318334019580702211
+    second: duck_03
+  - first:
+      213: -6957217826605171322
+    second: duck_04
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -1086,7 +1098,7 @@ TextureImporter:
         width: 50
         height: 50
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -1094,6 +1106,90 @@ TextureImporter:
       bones: []
       spriteID: 24a2b48cd9f662740800000000000000
       internalID: 5126907949268806210
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: duck_01
+      rect:
+        serializedVersion: 2
+        x: 305
+        y: 212
+        width: 50
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9cd8f7e6edb192290800000000000000
+      internalID: -7914764227976393271
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: duck_02
+      rect:
+        serializedVersion: 2
+        x: 355
+        y: 212
+        width: 50
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 353429aa2958a83b0800000000000000
+      internalID: -5509444329160948909
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: duck_03
+      rect:
+        serializedVersion: 2
+        x: 405
+        y: 212
+        width: 50
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: df150340e7f93dfd0800000000000000
+      internalID: -2318334019580702211
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: duck_04
+      rect:
+        serializedVersion: 2
+        x: 455
+        y: 212
+        width: 50
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 68dfe246f3ff27f90800000000000000
+      internalID: -6957217826605171322
       vertices: []
       indices: 
       edges: []

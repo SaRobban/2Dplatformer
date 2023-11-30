@@ -17,7 +17,7 @@ public static class CanvasFocus
    
     public static void Unfocus()
     {
-        if (lastFocus.activeSelf)
+        if (lastFocus != null && lastFocus.activeSelf )
             EventSystem.current.SetSelectedGameObject(lastFocus);
     }
 

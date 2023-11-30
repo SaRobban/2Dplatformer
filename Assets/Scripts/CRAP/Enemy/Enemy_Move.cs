@@ -47,7 +47,7 @@ public class Enemy_Move : MonoBehaviour
         {
             for (int i = 0; i < hit.Length; i++)
             {
-                if(Mathf.Abs( hit[i].normal.x) > 0.25f)
+                if(Mathf.Abs(hit[i].normal.x) > 0.25f)
                 {
                     //Hit wall, slope
                     invertDir = !invertDir;
