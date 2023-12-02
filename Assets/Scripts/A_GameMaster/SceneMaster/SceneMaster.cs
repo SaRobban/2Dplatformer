@@ -23,6 +23,8 @@ public class SceneMaster : MonoBehaviour
         CanvasManager.curtain.FadeIn(4);
         CameraManager.controll.aTargetReached += OnStep2;
         CameraManager.controll.MoveFromTo(startPos.position + Vector3.up * 5, startPos, 1);
+
+        PlayerMain.mainCharacter.ChangeStateTo<CC_Dialog>();
     }
 
     void OnStep2()
@@ -30,12 +32,19 @@ public class SceneMaster : MonoBehaviour
         CameraManager.controll.aTargetReached -= OnStep2;
 
         CameraManager.controll.SetStatic();
+
+        PlayerMain.mainCharacter.ChangeStateTo<CC_Dialog>();
+
         CanvasManager.dialogSystem.a_OnDialogFinished += OnStep3;
         CanvasManager.dialogSystem.EnterDialogFor("Intro");
+
     }
 
     void OnStep3() { 
         CameraManager.controll.TargetOne(PlayerMain.mainCharacter.transform);
+        PlayerMain.mainCharacter.ChangeStateTo<CC_Walk>();
+
+
     }
 }
 

@@ -93,7 +93,8 @@ public class MainCharacter : MonoBehaviour, GameMasterUpdate
         flags.CheckColliderFlags();
         Crush();
         aim.UpdateAim();
-        stateMachine.Execute();
+        stateMachine.Execute(Time.fixedDeltaTime);
+        tail.UpdateTail(Time.fixedDeltaTime);
         rb.velocity += addVelocity;
         addVelocity = Vector2.zero;
 

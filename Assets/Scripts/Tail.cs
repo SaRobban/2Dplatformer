@@ -4,17 +4,15 @@ using UnityEngine;
 
 public class Tail : MonoBehaviour
 {
-    [SerializeField]Transform testAnimationTarget;
-    SpriteRenderer sprite;
+    private SpriteRenderer sprite;
+    [SerializeField] Transform testAnimationTarget;
     [SerializeField] private float liftStr = 4;
-    private float momentumMultiplyer = 0.01f;
-    private float momentumMemory = 2;
+    [SerializeField] private float momentumMultiplyer = 0.01f;
+    [SerializeField] private float momentumMemory = 2;
     [SerializeField] private float swayStr = 1;
 
-    [SerializeField] private Vector2 target;
     [SerializeField] private float partDist = 0.1f;
 
-    private Vector2 targetPos;
     private Transform[] tailSegments;
     private Vector2[] storedMomentum;
     private float tailSegmentDiv;
@@ -22,18 +20,17 @@ public class Tail : MonoBehaviour
     void Awake()
     {
         sprite = testAnimationTarget.GetComponentInParent<SpriteRenderer>();
-        if (target == null)
-            target = Vector2.zero;
 
         tailSegments = new Transform[transform.childCount];
         Debug.Log("l : " + tailSegments.Length);
         storedMomentum = new Vector2[tailSegments.Length];
-        Vector2 lastTailSegmentPos = target;
+        Vector2 lastTailSegmentPos = testAnimationTarget.position;
+        Vector2 targetPos = testAnimationTarget.position;
         for (int i = 0; i < tailSegments.Length; i++)
         {
             Transform child = transform.GetChild(i).gameObject.transform;
             tailSegments[i] = child;
-            tailSegments[i].position = target + Vector2.right * partDist * i;
+            tailSegments[i].position = targetPos + Vector2.right * partDist * i;
             tailSegments[i].up = lastTailSegmentPos - (Vector2)tailSegments[i].position;
             storedMomentum[i] = Vector2.zero;
             lastTailSegmentPos = tailSegments[i].position;
@@ -43,18 +40,17 @@ public class Tail : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    public void UpdateTail(float deltaTime)
     {
 
 
         //TODO : See if momentum array is nessesery, try a target momental force!?
         //WARNING!!! : HOTFIX!!! Since deltatime can be 0 in first frame.
         float deltaDiv = 0.1f;
-        if (Time.deltaTime > 0)
-            deltaDiv = 1 / Time.deltaTime;
+        if (deltaTime > 0)
+            deltaDiv = 1 / deltaTime;
 
-        targetPos = target;
-        targetPos = testAnimationTarget.position;
+        Vector2 targetPos = testAnimationTarget.position;
 
         Vector2 targetDir = testAnimationTarget.up;
         if (sprite.flipX)
@@ -80,7 +76,7 @@ public class Tail : MonoBehaviour
             tailDirectionForce += swayForceDirection * i;
 
             Vector2 newPos = currentPos;
-            newPos += tailDirectionForce * Time.deltaTime;
+            newPos += tailDirectionForce * deltaTime;
 
             //Constrain position
             Vector2 dir = newPos - prevPos;

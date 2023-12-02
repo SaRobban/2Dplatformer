@@ -50,6 +50,12 @@ public class CC_Walk : ICharacterState
             owner.InvokeInteract();
         }
 
+        if(owner.input.Axis.y > 0)
+        {
+            owner.ChangeStateTo<CC_Howl>();
+            return;
+        }
+
         Animations(velocity);
         FootStepsSounds(velocity);
 
@@ -158,6 +164,7 @@ public class CC_Walk : ICharacterState
             return;
 
         owner.sounds.PlaySteps();
+        //owner.sounds.PlayHowl();
         time = stepTime;
     }
     public void OnExit()

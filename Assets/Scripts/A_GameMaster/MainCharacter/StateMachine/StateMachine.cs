@@ -72,9 +72,9 @@ public class StateMachine
         currentState.OnEnter();
     }
 
-    public void Execute()
+    public void Execute(float deltaTime)
     {
-        currentState.Execute(Time.fixedDeltaTime);
+        currentState.Execute(deltaTime);
     }
 
     public void ChangeState<T_State>() where T_State : ICharacterState
