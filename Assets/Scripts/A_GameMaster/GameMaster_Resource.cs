@@ -4,17 +4,19 @@ using UnityEngine;
 
 public class GameMaster_Resource : MonoBehaviour
 {
-    public GameMaster_ExecuteAction executeAction;
-    public UpdateGameObjects updateGameObjects;
-
-
     void Awake()
     {
-        executeAction = FindExecuteAction();
-        updateGameObjects = gameObject.AddComponent<UpdateGameObjects>();
         GameMaster.SetResources(this);
     }
-    
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            GameMaster.ToggleFreeze();
+        }
+    }
+
+    /*
     private GameMaster_ExecuteAction FindExecuteAction()
     {
         if (executeAction != null)
@@ -26,63 +28,42 @@ public class GameMaster_Resource : MonoBehaviour
         }
 
         return gameObject.AddComponent<GameMaster_ExecuteAction>();
-    }
+    }*/
 }
 
 
 public static class GameMaster
 {
-    public static bool Paused => pause;
-    private static bool pause;
-
-    public static event System.Action A_OnPause;
-    public static event System.Action A_OnUnPause;
-    
-    public static event System.Action A_OnFreezeScene;
-    public static event System.Action A_OnUnFreezeScene;
-
-    public static void PauseGame()
+    public static float GameSpeed => gameSpeed;
+    private static float gameSpeed = 1;
+    public static bool freeze = false;
+    public static System.Action a_OnFreeze;
+    public static System.Action a_OnUnFreeze;
+    public static void ToggleFreeze()
     {
-        pause = true;
-        A_OnPause?.Invoke();
-    }
-    public static void UnPause()
-    {
-        pause = false;
-        A_OnUnPause?.Invoke();
-    }
-
-    public static void FreezeScene()
-    {
-        Debug.Log("Gamemaster Invoke freeze");
-        A_OnFreezeScene?.Invoke();
-    }
-
-    public static void UnFreezeScene()
-    {
-        A_OnUnFreezeScene?.Invoke();
-    }
-
-    public static void TogglePause()
-    {
-        if(pause)
+        if (freeze)
         {
-            UnPause();
+            UnFreeze();
             return;
         }
-        PauseGame();
+        Freeze();
     }
 
     public static void SetResources(GameMaster_Resource resource)
     {
     }
-}
 
-public interface GameMasterUpdate
-{
-    void GM_OnPause();
-    void GM_OnUnPause();
+    public static void Freeze()
+    {
+        freeze = true;
+        gameSpeed = 0;
+        a_OnFreeze?.Invoke();
+    }
+    public static void UnFreeze()
+    {
+        freeze = false;
+        gameSpeed = 1;
+        a_OnUnFreeze?.Invoke();
+    }
 
-    void GM_FreezeGame();
-    void GM_UnFreezeGame();
 }

@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 
@@ -23,11 +21,12 @@ public class CameraFunction : MonoBehaviour
         realPos = CameraManager.cameraTruck.position;
     }
 
-    private void Update()
+    private void LateUpdate()
     {
-        float dt = Time.deltaTime;
-        CameraUpdateSwitch(dt);
+        float deltaTime = Time.deltaTime * GameMaster.GameSpeed;
+        CameraUpdateSwitch(deltaTime);
     }
+
     public void SetStatic()
     {
         mode = CameraMode.Static;
@@ -111,5 +110,21 @@ public class CameraFunction : MonoBehaviour
         transform.position = realPos;
         if ((realPos - targetOne.transform.position).sqrMagnitude < Mathf.Epsilon*2)
             aTargetReached?.Invoke();
+    }
+
+    public void Init()
+    {
+    }
+
+    public void GM_FixedUpdateFrame(float fixedDeltaTime)
+    {
+    }
+
+    public void GM_OnFreeze()
+    {
+    }
+
+    public void GM_OnUnFreeze()
+    {
     }
 }

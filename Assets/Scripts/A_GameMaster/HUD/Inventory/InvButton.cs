@@ -56,12 +56,12 @@ public class InvButton : Button//, ISelectHandler, IDeselectHandler
     public override void OnSelect(BaseEventData eventData)
     {
         base.OnSelect(eventData);
-        PlayerMain.inventory.m_ui.ShowInfoFor(item);
+        PlayerManager.inventory.m_ui.ShowInfoFor(item);
         Selected?.Invoke();
     }
     public override void OnSubmit(BaseEventData eventData)
     {
-        PlayerMain.inventory.m_ui.ShowInteractOptions(item, this);
+        PlayerManager.inventory.m_ui.ShowInteractOptions(item, this);
         base.OnSubmit(eventData);
     }
 }

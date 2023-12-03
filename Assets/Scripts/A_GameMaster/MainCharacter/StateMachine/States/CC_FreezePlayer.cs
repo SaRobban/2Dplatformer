@@ -14,17 +14,19 @@ public class CC_FreezePlayer : ICharacterState
     public void Execute(float deltaT)
     {
         owner.SetVelocityTo(Vector2.zero);
-        owner.SetAnimationTo("Idle");
+        // owner.SetAnimationTo("Idle");
     }
 
     public void OnEnter()
     {
         inVelociity = owner.rb.velocity;
+        owner.anim.speed = 0;
         owner.SetVelocityTo(Vector2.zero);
     }
 
     public void OnExit()
     {
+        owner.anim.speed = 1;
         owner.SetVelocityTo(inVelociity);
     }
 }

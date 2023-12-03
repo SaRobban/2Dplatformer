@@ -15,8 +15,6 @@ public class CC_Jump : ICharacterState
     public void OnEnter()
     {
         owner.input.ConsumeJumpForgiveness();//Not to dubble jump imedetly
-        //owner.useJumpFrogiveness = false;
-        owner.input.ConsumeJumpForgiveness();
         //Jump
         owner.SetVelocityTo(new Vector2(owner.GetVelocity().x, owner.stats.JumpStr));
         owner.SetAnimationTo("Jump");
@@ -52,16 +50,8 @@ public class CC_Jump : ICharacterState
     {
         //Exit State?
         CommonStateFunctions.ExitOnDubbleJump(owner);
+        CommonStateFunctions.ExitOnFall(owner);
         /*
-        if (owner.input.FixedJump && owner.dubbleJumpAvailable > 0)
-        {
-            Debug.Log("DubbleJumped");
-            owner.dubbleJumpAvailable--;
-            owner.ChangeStateTo<CC_Jump>();
-            
-            return;
-        }
-        */
         if (owner.GetVelocity().y < 0)
         {
             if (owner.flags.Grounded)
@@ -69,6 +59,7 @@ public class CC_Jump : ICharacterState
             else
                 owner.ChangeStateTo<CC_Fall>();
         }
+        */
         if (owner.input.FixedLightnignDash)
             owner.ChangeStateTo<CC_LightningDash>();
     }

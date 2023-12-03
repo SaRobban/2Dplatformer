@@ -107,7 +107,7 @@ public class Enemy_NEW : MonoBehaviour, IEnemyStateMachine
 
         if (collision.collider.tag == "Player")
         {
-            Vector2 dir = PlayerMain.mainCharacter.transform.position - transform.position;
+            Vector2 dir = PlayerManager.mainCharacter.transform.position - transform.position;
             Debug.DrawRay(transform.position, dir * 10, Color.magenta, 2);
 
             if (Vector2.Dot(dir.normalized, Vector2.up) > 0.707f)
@@ -116,7 +116,7 @@ public class Enemy_NEW : MonoBehaviour, IEnemyStateMachine
                 collision.transform.parent = transform;
             }
             else
-                PlayerMain.mainCharacter.AddDamage(1);
+                PlayerManager.mainCharacter.AddDamage(1);
         }
     }
     

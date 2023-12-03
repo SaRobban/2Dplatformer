@@ -21,9 +21,19 @@ public struct CommonStateFunctions
         }
     }
 
+    public static void ExitOnFall(MainCharacter owner)
+    {
+        if (owner.GetVelocity().y < 0)
+        {
+            if (owner.flags.Grounded)
+                owner.ChangeStateTo<CC_Walk>();
+            else
+                owner.ChangeStateTo<CC_Fall>();
+        }
+    }
 
-    //Common Forces
-    public static Vector2 AddGravityByInput(MainCharacter owner, Vector2 velocity, float deltaT)
+//Common Forces
+public static Vector2 AddGravityByInput(MainCharacter owner, Vector2 velocity, float deltaT)
     {
         //Gravity
         if (owner.input.HoldJump)

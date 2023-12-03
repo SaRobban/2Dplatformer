@@ -23,7 +23,7 @@ public class SPECIALFX : MonoBehaviour
             fx = new GameObject[poolSize];
             for (int i = 0; i < poolSize; i++)
             {
-                GameObject newFX = Instantiate(animationPreFab,holder);
+                GameObject newFX = Instantiate(animationPreFab, holder);
                 fx[i] = newFX;
                 newFX.SetActive(false);
             }
@@ -46,8 +46,8 @@ public class SPECIALFX : MonoBehaviour
         }
     }
 
-[Header("Pool Special fx")]
-[SerializeField]    private GameObject[] FX_Prefabs;
+    [Header("Pool Special fx")]
+    [SerializeField] private GameObject[] FX_Prefabs;
     [SerializeField] private int poolSize = 3;
 
     private void Awake()
@@ -75,7 +75,7 @@ public class SPECIALFX : MonoBehaviour
             spawnFX.Add(fx.name, pool);
         }
 #if UNITY_EDITOR
-        string names= "Special FX list : ";
+        string names = "Special FX list : ";
         foreach (string key in spawnFX.Keys)
         {
             names += key + ", ";

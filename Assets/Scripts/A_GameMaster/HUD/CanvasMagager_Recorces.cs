@@ -33,7 +33,5 @@ public static class CanvasManager
         infoBox = recorces.infoBox;
 
         Debug.Log("<color:yellow>Canvas was Setuped!!!</color>");
-
     }
-
 }

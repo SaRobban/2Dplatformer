@@ -37,7 +37,7 @@ public class RequireKeySensor : MonoBehaviour
                 key.RemoveThisFromInventory();
 
             CanvasManager.dialogSystem.EnterDialogFor("LockRightKey");
-            PlayerMain.inventory.m_ui.CloseInventory();
+            PlayerManager.inventory.m_ui.CloseInventory();
 
             return;
         }
@@ -55,7 +55,7 @@ public class RequireKeySensor : MonoBehaviour
     void OpenInventory()
     {
         Debug.Log("Force Open Inventory");
-        PlayerMain.inventory.m_ui.OpenInventory();
+        PlayerManager.inventory.m_ui.OpenInventory();
     }
 
     void UnSubscibe()

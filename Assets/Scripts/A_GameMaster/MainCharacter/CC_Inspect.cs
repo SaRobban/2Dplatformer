@@ -14,7 +14,7 @@ public class CC_Inspect : MonoBehaviour
         if (collision.TryGetComponent(out Item item))
         {
             activeItem = item;
-            PlayerMain.mainCharacter.A_OnInteract += OnInspect;
+            PlayerManager.mainCharacter.A_OnInteract += OnInspect;
         }
     }
 
@@ -28,7 +28,7 @@ public class CC_Inspect : MonoBehaviour
         //TODO : Find better way to dump and identefy item
         if (collision.TryGetComponent(out Item item))
         {
-            PlayerMain.mainCharacter.A_OnInteract -= OnInspect;
+            PlayerManager.mainCharacter.A_OnInteract -= OnInspect;
             activeItem = null;
         }
     }

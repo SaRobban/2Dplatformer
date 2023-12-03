@@ -152,7 +152,7 @@ public class PortalPlacement : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        mainCharacter = PlayerMain.mainCharacter;
+        mainCharacter = PlayerManager.mainCharacter;
         raycastPortal = new RayCastPortal(layerMask, 0.5f, 1000, 0.5f);
         placePortal = new PlacePortal(portalGO);
     }

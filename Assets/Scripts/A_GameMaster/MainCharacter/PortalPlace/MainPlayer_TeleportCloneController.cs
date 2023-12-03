@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class MainPlayer_TeleportCloneController : TeleportCloneController
 {
-    [SerializeField] MainCharacter mainCharacter => PlayerMain.mainCharacter;
+    [SerializeField] MainCharacter mainCharacter => PlayerManager.mainCharacter;
     [SerializeField] Animator animator;
     [SerializeField] SpriteRenderer sprite;
     public override void Init()

@@ -28,6 +28,5 @@ public class CC_Duck : ICharacterState
 
     public void OnExit()
     {
-        // owner.SetVelocityTo(inVelociity);
     }
 }

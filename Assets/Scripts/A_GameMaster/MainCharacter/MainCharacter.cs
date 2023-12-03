@@ -5,7 +5,7 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(MainCharacterStats))]
 
-public class MainCharacter : MonoBehaviour, GameMasterUpdate
+public class MainCharacter : MonoBehaviour
 {
     [Header("Stats")]
     [SerializeField] public MainCharacterStats stats;
@@ -31,14 +31,11 @@ public class MainCharacter : MonoBehaviour, GameMasterUpdate
     public System.Action<string> AnimationSwitch;
     public bool enabledPixelPerfect;
 
-    private string lastAnimationState;
-
     public event System.Action A_OnInteract;
     public event System.Action<Item> A_OnUseSpecialItem;
 
     private void Awake()
     {
-
         //SetUp
         stats = GetComponent<MainCharacterStats>();
         rb = GetComponent<Rigidbody2D>();
@@ -52,8 +49,6 @@ public class MainCharacter : MonoBehaviour, GameMasterUpdate
         aim = new CC_Aim(rb, this);
 
         healthSystem = new CC_Health(this);
-
-        
 
         //Init
         stateMachine.ChangeState<CC_Walk>();
@@ -70,31 +65,37 @@ public class MainCharacter : MonoBehaviour, GameMasterUpdate
 
     private void Start()
     {
-       
-
-        GameMaster.A_OnFreezeScene += GM_FreezeGame;
-        GameMaster.A_OnUnFreezeScene += GM_UnFreezeGame;
+        GameMaster.a_OnFreeze += GM_OnFreeze;
+        GameMaster.a_OnUnFreeze += GM_OnUnFreeze;
     }
 
     private void OnDestroy()
     {
-        GameMaster.A_OnFreezeScene -= GM_FreezeGame;
-        GameMaster.A_OnUnFreezeScene -= GM_UnFreezeGame;
+        GameMaster.a_OnFreeze -= GM_OnFreeze;
+        GameMaster.a_OnUnFreeze -= GM_OnUnFreeze;
     }
-
-    public void Update()
+    public void GM_OnFreeze()
+    {
+        ChangeStateTo<CC_FreezePlayer>();
+    }
+    public void GM_OnUnFreeze()
+    {
+        ChangeStateTo<CC_Walk>();
+    }
+    private void Update()
     {
         input.UpdateController();
         AlignUp();
     }
 
-    public void FixedUpdate()
+    void FixedUpdate()
     {
+        float fixedDeltaTime = Time.fixedDeltaTime * GameMaster.GameSpeed;
         flags.CheckColliderFlags();
         Crush();
         aim.UpdateAim();
-        stateMachine.Execute(Time.fixedDeltaTime);
-        tail.UpdateTail(Time.fixedDeltaTime);
+        stateMachine.Execute(fixedDeltaTime);
+        tail.UpdateTail(fixedDeltaTime);
         rb.velocity += addVelocity;
         addVelocity = Vector2.zero;
 
@@ -109,26 +110,8 @@ public class MainCharacter : MonoBehaviour, GameMasterUpdate
         PixelPerfectSpritePosition();
     }
 
-  
-    public void GM_OnPause()
-    {
-        ChangeStateTo<CC_FreezePlayer>();
-    }
 
-    public void GM_OnUnPause()
-    {
-        ChangeStateTo<CC_Walk>();
-    }
 
-    public void GM_FreezeGame()
-    {
-        ChangeStateTo<CC_FreezePlayer>();
-    }
-
-    public void GM_UnFreezeGame()
-    {
-        ChangeStateTo<CC_Walk>();
-    }
     /// <summary>
     /// New
     /// </summary>
@@ -194,14 +177,14 @@ public class MainCharacter : MonoBehaviour, GameMasterUpdate
 
     public void SetAnimationTo(string animation)
     {
-        lastAnimationState = animation;
+        lastAnimationName = animation;
         anim.Play(animation);
         AnimationSwitch?.Invoke(animation);
     }
 
     public string GetAnimationState()
     {
-        return lastAnimationState;
+        return lastAnimationName;
     }
 
     void PixelPerfectSpritePosition()
@@ -277,5 +260,5 @@ public class MainCharacter : MonoBehaviour, GameMasterUpdate
         flags.GetCollider().enabled = true;
     }
 
-  
+
 }

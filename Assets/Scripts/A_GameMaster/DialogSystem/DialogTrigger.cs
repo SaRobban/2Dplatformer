@@ -13,7 +13,7 @@ public class DialogTrigger : MonoBehaviour
         if (collision.tag == "Player")
         {
             Debug.Log("<color=yellow>Player entered dialog trigger</color>");
-            if (PlayerMain.mainCharacter.flags.Grounded)
+            if (PlayerManager.mainCharacter.flags.Grounded)
             {
                 CanvasManager.dialogSystem.EnterDialogFor(transform.name);
                 start = false;

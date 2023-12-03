@@ -13,8 +13,7 @@ public class UI_HealthBar : MonoBehaviour
     private GameObject[] fullHearts;
     void Start()
     {
-
-        int maxNumberOfHearts = PlayerMain.mainCharacter.stats.FullHP;
+        int maxNumberOfHearts = PlayerManager.mainCharacter.stats.FullHP;
         fullHearts = new GameObject[maxNumberOfHearts];
 
         for (int i = 0; i < maxNumberOfHearts; i++)
@@ -23,7 +22,9 @@ public class UI_HealthBar : MonoBehaviour
             fullHearts[i] = Instantiate(fullHeartPreFab, fullHeartHolder).gameObject;
         }
 
-        PlayerMain.mainCharacter.healthSystem.healthChange += OnHealthChanged;
+        int playerhealth = PlayerManager.mainCharacter.healthSystem.health;
+        OnHealthChanged(playerhealth);
+        PlayerManager.mainCharacter.healthSystem.healthChange += OnHealthChanged;
     }
 
     public void OnHealthChanged(int health)

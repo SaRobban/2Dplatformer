@@ -79,13 +79,13 @@ public class InventoryRoot : MonoBehaviour
             m_resources.inventoryRoot.gameObject.SetActive(true);
             m_resources.interactOptions.gameObject.SetActive(false);
             UpdateInventory();
-            GameMaster.FreezeScene();
+            GameMaster.Freeze();
         }
 
         public void CloseInventory()
         {
             m_resources.inventoryRoot.gameObject.SetActive(false);
-            GameMaster.UnFreezeScene();
+            GameMaster.UnFreeze();
         }
 
         public void ToggleVisibility()

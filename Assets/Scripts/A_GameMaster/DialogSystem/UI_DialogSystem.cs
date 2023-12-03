@@ -209,8 +209,6 @@ public class UI_DialogSystem : MonoBehaviour
     public void EnterDialogFor(string place)
     {
         Debug.Log("Search for : " + place);
-       // PlayerMain.mainCharacter.ChangeStateTo<CC_FreezePlayer>();
-
         DialogContent[] contents = FindDialog(place);
 
         if (contents != null && contents.Length > 0)

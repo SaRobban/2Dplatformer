@@ -25,7 +25,7 @@ public class Checkpoint : MonoBehaviour
     {
         flame.SetActive(true);
         lightFX.SetActive(true);
-        PlayerMain.mainCharacter.stats.SetSpawnPoint(thisLocation);
+        PlayerManager.mainCharacter.stats.SetSpawnPoint(thisLocation);
     }
 
     void TurnOutCandle()

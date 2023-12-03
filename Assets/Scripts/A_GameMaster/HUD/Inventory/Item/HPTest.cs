@@ -39,7 +39,7 @@ public class HPTest : Item
 
     public override void OnOptionOne_Inventory()
     {
-        PlayerMain.mainCharacter.healthSystem.AddHP(5);
+        PlayerManager.mainCharacter.healthSystem.AddHP(5);
         base.OnOptionOne_Inventory();
     }
 

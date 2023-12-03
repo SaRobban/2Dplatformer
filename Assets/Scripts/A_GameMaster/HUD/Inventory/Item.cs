@@ -87,7 +87,7 @@ public abstract class Item : MonoBehaviour
     }
     public virtual void OnOptionCancel_Inventory()
     {
-        PlayerMain.inventory.m_ui.HideInteractOptions();
+        PlayerManager.inventory.m_ui.HideInteractOptions();
     }
     public virtual void OnOptionOne_Inventory()
     {
@@ -119,18 +119,18 @@ public abstract class Item : MonoBehaviour
     }
     internal void CloseInventorty()
     {
-        PlayerMain.inventory.m_ui.CloseInventory();
+        PlayerManager.inventory.m_ui.CloseInventory();
     }
 
     internal void CloseInventoryInteractOptions()
     {
-        PlayerMain.inventory.m_ui.HideInteractOptions();
+        PlayerManager.inventory.m_ui.HideInteractOptions();
     }
 
     internal void OnCosumeItem()
     {
         // IfExistRemoveThisFromInventory();
-        PlayerMain.inventory.RemoveItem(this);
+        PlayerManager.inventory.RemoveItem(this);
         Destroy(this.gameObject);
     }
 }

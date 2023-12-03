@@ -28,7 +28,7 @@ public class TriggerSensor : MonoBehaviour
         if (subscribedToInteraction && collision.tag == "Player")
         {
             validObjectsInSensor.Add(collision);
-            PlayerMain.mainCharacter.A_OnInteract += SendEnterToRecivers;
+            PlayerManager.mainCharacter.A_OnInteract += SendEnterToRecivers;
             subscribedToInteraction = true;
             return;
         }
@@ -70,7 +70,7 @@ public class TriggerSensor : MonoBehaviour
     {
         if (subscribedToInteraction && collision.tag == "Player")
         {
-            PlayerMain.mainCharacter.A_OnInteract -= SendEnterToRecivers;
+            PlayerManager.mainCharacter.A_OnInteract -= SendEnterToRecivers;
             subscribedToInteraction = false;
         }
 
@@ -94,12 +94,12 @@ public class TriggerSensor : MonoBehaviour
     private void OnDisable()
     {
         if (subscribedToInteraction)
-            PlayerMain.mainCharacter.A_OnInteract -= SendEnterToRecivers;
+            PlayerManager.mainCharacter.A_OnInteract -= SendEnterToRecivers;
     }
 
     private void OnDestroy()
     {
         if (subscribedToInteraction)
-            PlayerMain.mainCharacter.A_OnInteract -= SendEnterToRecivers;
+            PlayerManager.mainCharacter.A_OnInteract -= SendEnterToRecivers;
     }
 }
