@@ -162,7 +162,7 @@ public class PortalPlacement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKey(KeyCode.P))
+        if (Input.GetKey(KeyCode.R))
         {
 
             Vector2 aimdir = AimDirection();
@@ -170,7 +170,7 @@ public class PortalPlacement : MonoBehaviour
 
         }
 
-        if (Input.GetKeyUp(KeyCode.P))
+        if (Input.GetKeyUp(KeyCode.R))
         {
             Vector2 aimdir = AimDirection();
             Vector2 point = mainCharacter.GetPosition() + Vector2.up * mainCharacter.stats.WaistHeight;
@@ -181,7 +181,7 @@ public class PortalPlacement : MonoBehaviour
             Debug.DrawRay(point, aimdir, Color.red, 5);
         }
 
-        if (Input.GetKeyUp(KeyCode.L))
+        if (Input.GetKeyUp(KeyCode.F))
         {
             placePortal.KillPortals();
         }

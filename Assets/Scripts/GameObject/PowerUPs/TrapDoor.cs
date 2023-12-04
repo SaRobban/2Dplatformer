@@ -27,7 +27,7 @@ public class TrapDoor : SensorReciverBase
             closedTarget = targetClosed.position;
     }
 
-    public override void Enter()
+    public override void Active()
     {
         if (targetOpen == null)
             return;
@@ -42,7 +42,7 @@ public class TrapDoor : SensorReciverBase
         StartCoroutine(coroutine);
     }
 
-    public override void Exit()
+    public override void InActive()
     {
         if (targetClosed == null)
             return;
